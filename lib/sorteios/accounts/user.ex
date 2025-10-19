@@ -95,7 +95,7 @@ defmodule Sorteios.Accounts.User do
       public? true
     end
 
-    attribute :role, :atom do
+    attribute :role, Sorteios.Accounts.Role do
       allow_nil? false
       public? true
       default :user
