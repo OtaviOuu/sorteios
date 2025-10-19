@@ -50,7 +50,7 @@ config :spark,
 config :sorteios,
   ecto_repos: [Sorteios.Repo],
   generators: [timestamp_type: :utc_datetime],
-  ash_domains: [Sorteios.Accounts]
+  ash_domains: [Sorteio.Prizes, Sorteios.Accounts]
 
 # Configures the endpoint
 config :sorteios, SorteiosWeb.Endpoint,
