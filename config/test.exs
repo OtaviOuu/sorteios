@@ -1,4 +1,7 @@
 import Config
+config :sorteios, token_signing_secret: "JJrk+g3trD2VfRmnNHE92gVfAXE7yM9O"
+config :bcrypt_elixir, log_rounds: 1
+config :ash, policies: [show_policy_breakdowns?: true], disable_async?: true
 
 # Configure your database
 #

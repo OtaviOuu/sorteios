@@ -15,7 +15,8 @@ defmodule Sorteios.Application do
       # Start a worker by calling: Sorteios.Worker.start_link(arg)
       # {Sorteios.Worker, arg},
       # Start to serve requests, typically the last entry
-      SorteiosWeb.Endpoint
+      SorteiosWeb.Endpoint,
+      {AshAuthentication.Supervisor, [otp_app: :sorteios]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

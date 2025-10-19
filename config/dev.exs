@@ -1,4 +1,5 @@
 import Config
+config :ash, policies: [show_policy_breakdowns?: true]
 
 # Configure your database
 config :sorteios, Sorteios.Repo,
@@ -64,7 +65,7 @@ config :sorteios, SorteiosWeb.Endpoint,
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :sorteios, dev_routes: true
+config :sorteios, dev_routes: true, token_signing_secret: "h1oK0VrBJ++uW58lKVlvD9CyS6dBHY/Z"
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :default_formatter, format: "[$level] $message\n"
