@@ -27,6 +27,7 @@ defmodule SorteiosWeb.Router do
     ash_authentication_live_session :authenticated_routes do
       live "/prizes", PrizesLive.Index, :index
       live "/prizes/new", PrizesLive.New, :new
+      live "/prizes/:id", PrizesLive.Show, :show
 
       # in each liveview, add one of the following at the top of the module:
       #
