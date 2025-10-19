@@ -4,7 +4,8 @@ defmodule Sorteio.Prizes.Rifa do
     domain: Sorteio.Prizes,
     data_layer: AshPostgres.DataLayer,
     extensions: [AshPhoenix],
-    authorizers: [Ash.Policy.Authorizer]
+    authorizers: [Ash.Policy.Authorizer],
+    notifiers: [Ash.Notifier.PubSub]
 
   postgres do
     table "rifas"
@@ -28,6 +29,13 @@ defmodule Sorteio.Prizes.Rifa do
     policy action_type(:read) do
       authorize_if always()
     end
+  end
+
+  pub_sub do
+    module SorteiosWeb.Endpoint
+
+    prefix "prize"
+    publish_all :create, [[:id, nil]]
   end
 
   attributes do

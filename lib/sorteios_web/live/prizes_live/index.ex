@@ -4,6 +4,10 @@ defmodule SorteiosWeb.PrizesLive.Index do
   on_mount {SorteiosWeb.LiveUserAuth, :live_user_optional}
 
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      SorteiosWeb.Endpoint.subscribe("prize")
+    end
+
     {:ok, rifas} = Sorteio.Prizes.list_rifas()
 
     {:ok, assign(socket, :rifas, rifas)}
@@ -43,5 +47,10 @@ defmodule SorteiosWeb.PrizesLive.Index do
       </table>
     </div>
     """
+  end
+
+  def handle_info(%Phoenix.Socket.Broadcast{topic: "prize"}, socket) do
+    {:ok, new_rifas} = Sorteio.Prizes.list_rifas()
+    {:noreply, assign(socket, :rifas, new_rifas)}
   end
 end
