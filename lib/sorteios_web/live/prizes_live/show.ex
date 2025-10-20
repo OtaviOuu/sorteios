@@ -21,6 +21,7 @@ defmodule SorteiosWeb.PrizesLive.Show do
           <div class="card-body">
             <div class="flex items-center gap-2 mb-4">
               <div class="badge badge-primary badge-lg">Rifa Ativa</div>
+              <div class="badge badge-primary badge-lg">{@rifa.user.email}</div>
             </div>
 
             <h1 class="card-title text-4xl font-bold mb-4">
