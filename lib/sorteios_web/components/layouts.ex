@@ -44,14 +44,26 @@ defmodule SorteiosWeb.Layouts do
       </div>
       <div class="flex-none">
         <ul class="flex flex-column px-1 space-x-4 items-center">
+          <%= if @current_user do %>
+            <li>
+              {@current_user.email}
+            </li>
+          <% else %>
+            <li>
+              <.link
+                href={~p"/register"}
+                class="btn btn-ghost btn-sm rounded-btn"
+              >
+                Register
+              </.link>
+            </li>
+          <% end %>
           <li>
-            <.link navigate={~p"/prizes"}>
-              Prizes
-            </.link>
-          </li>
-          <li>
-            <.link navigate={~p"/prizes"}>
-              Prizes
+            <.link
+              href={~p"/prizes"}
+              class="btn btn-ghost btn-sm rounded-btn"
+            >
+              Rifas
             </.link>
           </li>
           <li>
