@@ -13,11 +13,17 @@ defmodule Sorteio.Prizes.Rifa do
   end
 
   actions do
-    defaults [:destroy, :create, :update]
+    defaults [:destroy, :update]
     default_accept [:name, :description]
+
+    create :create do
+      accept [:name, :description, :user_id]
+      change relate_actor(:user)
+    end
 
     read :read do
       prepare build(sort: [inserted_at: :desc])
+      prepare build(load: [:user])
     end
   end
 
@@ -49,5 +55,9 @@ defmodule Sorteio.Prizes.Rifa do
     end
 
     timestamps()
+  end
+
+  relationships do
+    belongs_to :user, Sorteios.Accounts.User
   end
 end

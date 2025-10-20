@@ -1,4 +1,4 @@
-defmodule Sorteios.Repo.Migrations.InitializeAndAddAuthenticationResourcesAndAddMagicLinkAuth do
+defmodule Sorteios.Repo.Migrations.Init do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 
@@ -11,6 +11,7 @@ defmodule Sorteios.Repo.Migrations.InitializeAndAddAuthenticationResourcesAndAdd
     create table(:users, primary_key: false) do
       add :id, :uuid, null: false, default: fragment("gen_random_uuid()"), primary_key: true
       add :email, :citext, null: false
+      add :role, :text, null: false, default: "user"
     end
 
     create unique_index(:users, [:email], name: "users_unique_email_index")
@@ -30,9 +31,26 @@ defmodule Sorteios.Repo.Migrations.InitializeAndAddAuthenticationResourcesAndAdd
         null: false,
         default: fragment("(now() AT TIME ZONE 'utc')")
     end
+
+    create table(:rifas, primary_key: false) do
+      add :id, :uuid, null: false, default: fragment("gen_random_uuid()"), primary_key: true
+      add :name, :text
+      add :description, :text
+      add :status, :text, default: "active"
+
+      add :inserted_at, :utc_datetime_usec,
+        null: false,
+        default: fragment("(now() AT TIME ZONE 'utc')")
+
+      add :updated_at, :utc_datetime_usec,
+        null: false,
+        default: fragment("(now() AT TIME ZONE 'utc')")
+    end
   end
 
   def down do
+    drop table(:rifas)
+
     drop table(:tokens)
 
     drop_if_exists unique_index(:users, [:email], name: "users_unique_email_index")

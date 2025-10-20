@@ -1,4 +1,4 @@
-defmodule Sorteios.Repo.Migrations.CreateRifasTable do
+defmodule Sorteios.Repo.Migrations.MigrateResources3 do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 
@@ -8,14 +8,14 @@ defmodule Sorteios.Repo.Migrations.CreateRifasTable do
   use Ecto.Migration
 
   def up do
-    alter table(:users) do
-      add :role, :text, null: false, default: "user"
+    alter table(:rifas) do
+      modify :user_id, :uuid, null: false
     end
   end
 
   def down do
-    alter table(:users) do
-      remove :role
+    alter table(:rifas) do
+      modify :user_id, :uuid, null: true
     end
   end
 end

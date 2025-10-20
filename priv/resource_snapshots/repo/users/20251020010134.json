@@ -23,6 +23,18 @@
       "size": null,
       "source": "email",
       "type": "citext"
+    },
+    {
+      "allow_nil?": false,
+      "default": "\"user\"",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "role",
+      "type": "text"
     }
   ],
   "base_filter": null,
@@ -30,7 +42,7 @@
   "custom_indexes": [],
   "custom_statements": [],
   "has_create_action": true,
-  "hash": "184FAE7DE0A4EDC0388A989145BAE66D79389E0B2E110BFF06836A3C64496CFE",
+  "hash": "9D3A5B44D260F486934D105497D5F89B917170CC34AE1738ECE5504A9C20D01E",
   "identities": [
     {
       "all_tenants?": false,

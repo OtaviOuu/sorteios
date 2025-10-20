@@ -2,7 +2,8 @@ defmodule SorteiosWeb.PrizesLive.Show do
   use SorteiosWeb, :live_view
 
   def mount(%{"id" => id}, _session, socket) do
-    {:ok, rifa} = Sorteio.Prizes.get_rifa(id)
+    {:ok, rifa} = Sorteio.Prizes.get_rifa(id, actor: socket.assigns.current_user)
+    IO.inspect(rifa, label: "Rifa encontrada")
 
     socket =
       socket

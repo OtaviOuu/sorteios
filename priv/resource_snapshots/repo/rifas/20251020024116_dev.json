@@ -71,6 +71,37 @@
       "size": null,
       "source": "updated_at",
       "type": "utc_datetime_usec"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": {
+        "deferrable": false,
+        "destination_attribute": "id",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "index?": false,
+        "match_type": null,
+        "match_with": null,
+        "multitenancy": {
+          "attribute": null,
+          "global": null,
+          "strategy": null
+        },
+        "name": "rifas_user_id_fkey",
+        "on_delete": "nothing",
+        "on_update": null,
+        "primary_key?": true,
+        "schema": "public",
+        "table": "users"
+      },
+      "scale": null,
+      "size": null,
+      "source": "user_id",
+      "type": "uuid"
     }
   ],
   "base_filter": null,
@@ -78,7 +109,7 @@
   "custom_indexes": [],
   "custom_statements": [],
   "has_create_action": true,
-  "hash": "171947E1606DEF2982235A4797079AFB658EF4D1DBB9316F2FB764F94551D12C",
+  "hash": "C733A9D4EFC17DED9BF42178CA4371E83CC5A08282DB38579AF115C9B4030928",
   "identities": [],
   "multitenancy": {
     "attribute": null,

@@ -1,4 +1,4 @@
-defmodule Sorteios.Repo.Migrations.InitializeAndAddAuthenticationResourcesAndAddMagicLinkAuthExtensions1 do
+defmodule Sorteios.Repo.Migrations.InitExtensions1 do
   @moduledoc """
   Installs any extensions that are mentioned in the repo's `installed_extensions/0` callback
 

@@ -24,103 +24,33 @@ defmodule SorteiosWeb.PrizesLive.Index do
         Create New Rifa
       </.button>
       <%= if length(@rifas) > 0 do %>
-        <.prizes_table rifas={@rifas} />
+        <.table
+          id="prizes"
+          rows={@rifas}
+          row_click={fn rifa -> JS.navigate(~p"/prizes/#{rifa.id}") end}
+        >
+          <:col :let={rifa} label="Name">
+            <.link navigate={~p"/prizes/#{rifa.id}"}>{rifa.name}</.link>
+          </:col>
+          <:col :let={rifa} label="Description">
+            {rifa.description}
+          </:col>
+          <:col :let={rifa} label="Owner">
+            {rifa.user.email} - <span class={style_role(rifa.user.role)}>{rifa.user.role}</span>
+          </:col>
+          <:col :let={rifa} label="Created At">
+            {format_datetime(rifa.inserted_at)}
+          </:col>
+          <:col :let={rifa} label="Status">
+            {rifa.status}
+          </:col>
+        </.table>
       <% else %>
         <div class="text-sm opacity-60">
           Nenhuma rifa ai é foda
         </div>
       <% end %>
     </Layouts.app>
-    """
-  end
-
-  def row(assigns) do
-    ~H"""
-    <tr class="hover:bg-gray-100" phx-click={JS.navigate(~p"/prizes/#{@rifa}")}>
-      <td>
-        <div class="flex items-center gap-3">
-          <div class="avatar placeholder">
-            <div class="bg-primary text-primary-content rounded-full w-12">
-              <span class="text-xl font-bold">{@rifa.name}</span>
-            </div>
-          </div>
-          <div>
-            <div class="font-bold text-lg">{@rifa.name}</div>
-            <div class="text-sm opacity-50 badge badge-ghost badge-sm">Rifa Ativa</div>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="max-w-md">
-          <p class="text-base-content/80 line-clamp-2">{@rifa.description}</p>
-        </div>
-      </td>
-      <td>
-        <div class="max-w-md">
-          <p class="text-base-content/80 line-clamp-2">{format_datetime(@rifa.inserted_at)}</p>
-        </div>
-      </td>
-      <td>
-        <.status_badge status={@rifa.status} />
-      </td>
-    </tr>
-    """
-  end
-
-  def prizes_table(assigns) do
-    ~H"""
-    <div class="card bg-base-100 shadow-md">
-      <div class="card-body">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="card-title text-2xl">
-            <.icon name="hero-gift" class="h-6 w-6 mr-2" /> Rifas Disponíveis
-          </h2>
-          <div class="badge badge-primary badge-lg">{length(@rifas)} rifas</div>
-        </div>
-
-        <div class="divider mt-0"></div>
-
-        <div class="overflow-x-auto">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="text-base">
-                  <div class="flex items-center gap-2">
-                    Nome da Rifa
-                  </div>
-                </th>
-                <th class="text-base">
-                  <div class="flex items-center gap-2">
-                    Descrição
-                  </div>
-                </th>
-                <th class="text-base">
-                  <div class="flex items-center gap-2">
-                    Created At
-                  </div>
-                </th>
-                <th class="text-base">
-                  <div class="flex items-center gap-2">
-                    Status
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <.row :for={rifa <- @rifas} rifa={rifa} />
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    """
-  end
-
-  def status_badge(assigns) do
-    ~H"""
-    <div>
-      <div class="badge badge-success badge-lg">{@status}</div>
-    </div>
     """
   end
 
@@ -133,4 +63,8 @@ defmodule SorteiosWeb.PrizesLive.Index do
     datetime
     |> Calendar.strftime("%d/%m/%Y %H:%M")
   end
+
+  defp style_role(:admin), do: "badge badge-accent"
+  defp style_role(:user), do: "badge badge-primary"
+  defp style_role(_), do: "badge badge-secondary"
 end

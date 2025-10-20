@@ -1,4 +1,4 @@
-defmodule Sorteios.Repo.Migrations.MigrateResources1 do
+defmodule Sorteios.Repo.Migrations.MigrateResources7 do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 
@@ -9,13 +9,20 @@ defmodule Sorteios.Repo.Migrations.MigrateResources1 do
 
   def up do
     alter table(:rifas) do
-      add :status, :text, default: "active"
+      remove :user_id
     end
   end
 
   def down do
     alter table(:rifas) do
-      remove :status
+      add :user_id,
+          references(:users,
+            column: :id,
+            name: "rifas_user_id_fkey",
+            type: :uuid,
+            prefix: "public"
+          ),
+          null: false
     end
   end
 end
