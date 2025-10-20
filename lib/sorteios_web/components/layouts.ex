@@ -45,12 +45,17 @@ defmodule SorteiosWeb.Layouts do
       <div class="flex-none">
         <ul class="flex flex-column px-1 space-x-4 items-center">
           <li>
-            <.theme_toggle />
+            <.link navigate={~p"/prizes"}>
+              Prizes
+            </.link>
           </li>
           <li>
-            <a href="https://hexdocs.pm/phoenix/overview.html" class="btn btn-primary">
-              Get Started <span aria-hidden="true">&rarr;</span>
-            </a>
+            <.link navigate={~p"/prizes"}>
+              Prizes
+            </.link>
+          </li>
+          <li>
+            <.theme_toggle />
           </li>
         </ul>
       </div>

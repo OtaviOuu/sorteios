@@ -8,7 +8,7 @@ defmodule SorteiosWeb.PrizesLive.Index do
       SorteiosWeb.Endpoint.subscribe("prize")
     end
 
-    {:ok, rifas} = Sorteio.Prizes.list_rifas()
+    {:ok, rifas} = Sorteios.Prizes.list_rifas()
 
     {:ok, assign(socket, :rifas, rifas)}
   end
@@ -18,7 +18,7 @@ defmodule SorteiosWeb.PrizesLive.Index do
     <Layouts.app {assigns}>
       <h1 class="text-2xl font-bold mb-4">Prizes</h1>
       <.button
-        :if={Sorteio.Prizes.can_create_rifa?(@current_user)}
+        :if={Sorteios.Prizes.can_create_rifa?(@current_user)}
         phx-click={JS.navigate(~p"/prizes/new")}
       >
         Create New Rifa
@@ -55,7 +55,7 @@ defmodule SorteiosWeb.PrizesLive.Index do
   end
 
   def handle_info(%Phoenix.Socket.Broadcast{topic: "prize"}, socket) do
-    {:ok, new_rifas} = Sorteio.Prizes.list_rifas()
+    {:ok, new_rifas} = Sorteios.Prizes.list_rifas()
     {:noreply, assign(socket, :rifas, new_rifas)}
   end
 

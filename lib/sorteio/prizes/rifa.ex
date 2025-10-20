@@ -1,7 +1,7 @@
-defmodule Sorteio.Prizes.Rifa do
+defmodule Sorteios.Prizes.Rifa do
   use Ash.Resource,
     otp_app: :sorteios,
-    domain: Sorteio.Prizes,
+    domain: Sorteios.Prizes,
     data_layer: AshPostgres.DataLayer,
     extensions: [AshPhoenix],
     authorizers: [Ash.Policy.Authorizer],
@@ -21,9 +21,13 @@ defmodule Sorteio.Prizes.Rifa do
       change relate_actor(:owener)
     end
 
+    update :add_ticket do
+      argument :ticket_id, :uuid
+    end
+
     read :read do
       prepare build(sort: [inserted_at: :desc])
-      prepare build(load: [:owener])
+      prepare build(load: [:owener, :tickets])
     end
   end
 
@@ -59,5 +63,6 @@ defmodule Sorteio.Prizes.Rifa do
 
   relationships do
     belongs_to :owener, Sorteios.Accounts.User
+    has_many :tickets, Sorteios.Prizes.Tickets
   end
 end
