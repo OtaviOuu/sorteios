@@ -44,7 +44,7 @@ defmodule Sorteio.Prizes.Rifa do
     attribute :name, :string
     attribute :description, :string
 
-    attribute :status, :atom do
+    attribute :status, Sorteios.Prizes.Status do
       default :active
     end
 
