@@ -56,6 +56,11 @@ defmodule SorteiosWeb.PrizesLive.Index do
         </div>
       </td>
       <td>
+        <div class="max-w-md">
+          <p class="text-base-content/80 line-clamp-2">{format_datetime(@rifa.inserted_at)}</p>
+        </div>
+      </td>
+      <td>
         <.status_badge status={@rifa.status} />
       </td>
     </tr>
@@ -64,25 +69,11 @@ defmodule SorteiosWeb.PrizesLive.Index do
 
   def prizes_table(assigns) do
     ~H"""
-    <div class="card bg-base-100 shadow-xl">
+    <div class="card bg-base-100 shadow-md">
       <div class="card-body">
         <div class="flex items-center justify-between mb-4">
           <h2 class="card-title text-2xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-7 w-7"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
-              />
-            </svg>
-            Rifas Disponíveis
+            <.icon name="hero-gift" class="h-6 w-6 mr-2" /> Rifas Disponíveis
           </h2>
           <div class="badge badge-primary badge-lg">{length(@rifas)} rifas</div>
         </div>
@@ -95,43 +86,24 @@ defmodule SorteiosWeb.PrizesLive.Index do
               <tr>
                 <th class="text-base">
                   <div class="flex items-center gap-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-                      />
-                    </svg>
                     Nome da Rifa
                   </div>
                 </th>
                 <th class="text-base">
                   <div class="flex items-center gap-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M4 6h16M4 12h16M4 18h7"
-                      />
-                    </svg>
                     Descrição
                   </div>
                 </th>
-                <th class="text-base">Status</th>
+                <th class="text-base">
+                  <div class="flex items-center gap-2">
+                    Created At
+                  </div>
+                </th>
+                <th class="text-base">
+                  <div class="flex items-center gap-2">
+                    Status
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -155,5 +127,10 @@ defmodule SorteiosWeb.PrizesLive.Index do
   def handle_info(%Phoenix.Socket.Broadcast{topic: "prize"}, socket) do
     {:ok, new_rifas} = Sorteio.Prizes.list_rifas()
     {:noreply, assign(socket, :rifas, new_rifas)}
+  end
+
+  defp format_datetime(datetime) do
+    datetime
+    |> Calendar.strftime("%d/%m/%Y %H:%M")
   end
 end
