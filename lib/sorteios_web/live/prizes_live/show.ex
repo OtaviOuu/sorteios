@@ -5,13 +5,8 @@ defmodule SorteiosWeb.PrizesLive.Show do
 
   def mount(%{"id" => id}, _session, socket) do
     current_user = socket.assigns.current_user
-
     {:ok, rifa} = Sorteios.Prizes.get_rifa(id, actor: current_user)
-
-    {:ok, tickets} =
-      Sorteios.Prizes.list_tickets_from_rifa(rifa.id, actor: current_user)
-
-    IO.inspect(tickets, label: "Tickets da rifa na live view")
+    {:ok, tickets} = Sorteios.Prizes.list_tickets_from_rifa(rifa.id, actor: current_user)
 
     socket =
       socket
@@ -25,45 +20,46 @@ defmodule SorteiosWeb.PrizesLive.Show do
   def render(assigns) do
     ~H"""
     <Layouts.app {assigns}>
-      <div class="container mx-auto px-4 py-8 max-w-4xl">
-        <div class="card bg-base-100 shadow-xl">
-          <div class="card-body">
-            <div class="flex items-center gap-2 mb-4">
-              <div class="badge badge-primary badge-lg">Rifa Ativa</div>
-              <div class="badge badge-primary badge-lg">{@rifa.owener.email}</div>
+      <div class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white py-20">
+        <div class="absolute inset-0 bg-black/30"></div>
 
-              <div class="badge badge-info badge-lg">
-                <.tickets_list tickets={@tickets} />
-              </div>
-            </div>
+        <div class="relative container mx-auto px-6 max-w-4xl text-center">
+          <h1 class="text-5xl font-extrabold tracking-tight mb-4 drop-shadow-lg">
+            {@rifa.name}
+          </h1>
+          <p class="text-lg opacity-90 max-w-2xl mx-auto">
+            {@rifa.description}
+          </p>
 
-            <h1 class="card-title text-4xl font-bold mb-4">
-              {@rifa.name}
-            </h1>
+          <div class="flex flex-wrap justify-center gap-3 mt-8">
+            <span class="bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-sm font-medium border border-white/20">
+              Rifa Ativa
+            </span>
+            <span class="bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-sm font-medium border border-white/20">
+              {@rifa.owener.email}
+            </span>
+            <span class="bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-sm font-medium border border-white/20 flex items-center gap-2">
+              <.icon name="hero-ticket" class="w-4 h-4" /> {length(@tickets)} tickets
+            </span>
+          </div>
+        </div>
+      </div>
 
-            <div class="divider"></div>
+      <div class="bg-base-100 py-16">
+        <div class="container mx-auto px-6 max-w-3xl">
+          <div class="flex flex-col sm:flex-row justify-center sm:justify-between gap-4 mt-8">
+            <.button
+              :if={Sorteios.Prizes.can_create_ticket?(@current_user)}
+              data-action="confetti"
+              phx-click="participate"
+              class="btn btn-primary btn-lg gap-2 font-semibold w-full sm:w-auto"
+            >
+              <.icon name="hero-ticket" class="w-5 h-5" /> Participar da Rifa
+            </.button>
 
-            <div class="prose max-w-none">
-              <h2 class="text-xl font-semibold mb-3">Descrição</h2>
-              <p class="text-base-content/80 text-lg leading-relaxed">
-                {@rifa.description}
-              </p>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="card-actions justify-end mt-4">
-              <.button
-                :if={Sorteios.Prizes.can_create_ticket?(@current_user)}
-                data-action="confetti"
-                phx-click="participate"
-              >
-                <.icon name="hero-ticket" class="w-5 h-5 mr-2" /> Participar da Rifa
-              </.button>
-              <button class="btn btn-outline btn-lg">
-                Compartilhar
-              </button>
-            </div>
+            <button class="btn btn-outline btn-lg gap-2 font-semibold w-full sm:w-auto">
+              <.icon name="hero-share" class="w-5 h-5" /> Compartilhar
+            </button>
           </div>
         </div>
       </div>
@@ -71,21 +67,9 @@ defmodule SorteiosWeb.PrizesLive.Show do
     """
   end
 
-  def tickets_list(assigns) do
-    ~H"""
-    <div>
-      <.icon name="hero-ticket" class="w-6 h-6 inline-block mr-2" />
-      {length(@tickets)}
-    </div>
-    """
-  end
-
   def handle_event("participate", _value, socket) do
     case Sorteios.Prizes.create_ticket(
-           %{
-             user_id: socket.assigns.current_user.id,
-             rifa_id: socket.assigns.rifa.id
-           },
+           %{user_id: socket.assigns.current_user.id, rifa_id: socket.assigns.rifa.id},
            actor: socket.assigns.current_user
          ) do
       {:ok, _ticket} ->
