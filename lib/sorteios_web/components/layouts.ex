@@ -48,6 +48,12 @@ defmodule SorteiosWeb.Layouts do
             <li>
               {@current_user.email}
             </li>
+            <li>
+              <.link navigate={~p"/profile/credits"} class="btn btn-ghost btn-sm rounded-btn">
+                <.icon name="hero-credit-card" />
+                {@current_user.credits}
+              </.link>
+            </li>
           <% else %>
             <li>
               <.link

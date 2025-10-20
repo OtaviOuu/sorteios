@@ -21,10 +21,6 @@ defmodule Sorteios.Prizes.Rifa do
       change relate_actor(:owener)
     end
 
-    update :add_ticket do
-      argument :ticket_id, :uuid
-    end
-
     read :read do
       prepare build(sort: [inserted_at: :desc])
       prepare build(load: [:owener, :tickets, :tickets_count])

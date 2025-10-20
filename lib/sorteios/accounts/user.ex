@@ -104,6 +104,11 @@ defmodule Sorteios.Accounts.User do
       public? true
       default :user
     end
+
+    attribute :credits, :integer do
+      allow_nil? false
+      default 10
+    end
   end
 
   identities do
