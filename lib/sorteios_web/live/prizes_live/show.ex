@@ -55,6 +55,7 @@ defmodule SorteiosWeb.PrizesLive.Show do
             <div class="card-actions justify-end mt-4">
               <.button
                 :if={Sorteios.Prizes.can_create_ticket?(@current_user)}
+                data-action="confetti"
                 phx-click="participate"
               >
                 <.icon name="hero-ticket" class="w-5 h-5 mr-2" /> Participar da Rifa
@@ -80,10 +81,6 @@ defmodule SorteiosWeb.PrizesLive.Show do
   end
 
   def handle_event("participate", _value, socket) do
-    IO.inspect(socket.assigns.rifa.id, label: "RIFA ID")
-
-    IO.inspect(socket.assigns.current_user.id, label: "USER ID")
-
     case Sorteios.Prizes.create_ticket(
            %{
              user_id: socket.assigns.current_user.id,
