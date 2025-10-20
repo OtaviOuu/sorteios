@@ -17,13 +17,13 @@ defmodule Sorteio.Prizes.Rifa do
     default_accept [:name, :description]
 
     create :create do
-      accept [:name, :description, :user_id]
-      change relate_actor(:user)
+      accept [:name, :description]
+      change relate_actor(:owener)
     end
 
     read :read do
       prepare build(sort: [inserted_at: :desc])
-      prepare build(load: [:user])
+      prepare build(load: [:owener])
     end
   end
 
@@ -58,6 +58,6 @@ defmodule Sorteio.Prizes.Rifa do
   end
 
   relationships do
-    belongs_to :user, Sorteios.Accounts.User
+    belongs_to :owener, Sorteios.Accounts.User
   end
 end

@@ -36,7 +36,7 @@ defmodule SorteiosWeb.PrizesLive.Index do
             {rifa.description}
           </:col>
           <:col :let={rifa} label="Owner">
-            {rifa.user.email} - <span class={style_role(rifa.user.role)}>{rifa.user.role}</span>
+            {rifa.owener.email} - <span class={style_role(rifa.owener.role)}>{rifa.owener.role}</span>
           </:col>
           <:col :let={rifa} label="Created At">
             {format_datetime(rifa.inserted_at)}
