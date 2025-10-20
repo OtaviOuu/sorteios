@@ -27,7 +27,7 @@ defmodule Sorteios.Prizes.Rifa do
 
     read :read do
       prepare build(sort: [inserted_at: :desc])
-      prepare build(load: [:owener, :tickets])
+      prepare build(load: [:owener, :tickets, :tickets_count])
     end
   end
 
@@ -64,5 +64,11 @@ defmodule Sorteios.Prizes.Rifa do
   relationships do
     belongs_to :owener, Sorteios.Accounts.User
     has_many :tickets, Sorteios.Prizes.Tickets
+  end
+
+  aggregates do
+    count :tickets_count, Sorteios.Prizes.Tickets do
+      public? true
+    end
   end
 end

@@ -9,6 +9,7 @@ defmodule SorteiosWeb.PrizesLive.Index do
     end
 
     {:ok, rifas} = Sorteios.Prizes.list_rifas()
+    IO.inspect(rifas, label: "Rifas na live view")
 
     {:ok, assign(socket, :rifas, rifas)}
   end

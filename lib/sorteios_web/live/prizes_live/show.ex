@@ -11,6 +11,8 @@ defmodule SorteiosWeb.PrizesLive.Show do
     {:ok, tickets} =
       Sorteios.Prizes.list_tickets_from_rifa(rifa.id, actor: current_user)
 
+    IO.inspect(tickets, label: "Tickets da rifa na live view")
+
     socket =
       socket
       |> assign(:page_title, rifa.name)

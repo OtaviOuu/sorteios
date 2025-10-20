@@ -5,7 +5,7 @@ defmodule SorteiosWeb.PrizesLive.New do
 
   def mount(_params, _session, socket) do
     create_rifa_form =
-      Sorteio.Prizes.form_to_create_rifa(actor: socket.assigns.current_user) |> to_form()
+      Sorteios.Prizes.form_to_create_rifa(actor: socket.assigns.current_user) |> to_form()
 
     socket =
       socket
@@ -36,7 +36,7 @@ defmodule SorteiosWeb.PrizesLive.New do
   end
 
   def handle_event("create", %{"form" => rifa_params}, socket) do
-    case Sorteio.Prizes.create_rifa(
+    case Sorteios.Prizes.create_rifa(
            rifa_params,
            actor: socket.assigns.current_user
          ) do
