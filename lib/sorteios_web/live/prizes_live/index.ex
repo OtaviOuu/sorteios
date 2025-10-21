@@ -28,6 +28,7 @@ defmodule SorteiosWeb.PrizesLive.Index do
         <Cinder.Table.table
           resource={Sorteios.Prizes.Rifa}
           actor={@current_user}
+          filters_label="Search Rifas"
           row_click={fn rifa -> JS.navigate(~p"/prizes/#{rifa.id}") end}
         >
           <:col :let={rifa} field="name" filter sort>{rifa.name}</:col>
@@ -48,8 +49,4 @@ defmodule SorteiosWeb.PrizesLive.Index do
     {:ok, new_rifas} = Sorteios.Prizes.list_rifas()
     {:noreply, assign(socket, :rifas, new_rifas)}
   end
-
-  defp style_role(:admin), do: "badge badge-accent"
-  defp style_role(:user), do: "badge badge-primary"
-  defp style_role(_), do: "badge badge-secondary"
 end
