@@ -25,27 +25,16 @@ defmodule SorteiosWeb.PrizesLive.Index do
         Create New Rifa
       </.button>
       <%= if length(@rifas) > 0 do %>
-        <.table
-          id="prizes"
-          rows={@rifas}
+        <Cinder.Table.table
+          resource={Sorteios.Prizes.Rifa}
+          actor={@current_user}
           row_click={fn rifa -> JS.navigate(~p"/prizes/#{rifa.id}") end}
         >
-          <:col :let={rifa} label="Name">
-            <.link navigate={~p"/prizes/#{rifa.id}"}>{rifa.name}</.link>
-          </:col>
-          <:col :let={rifa} label="Description">
-            {rifa.description}
-          </:col>
-          <:col :let={rifa} label="Owner">
-            {rifa.owener.email} - <span class={style_role(rifa.owener.role)}>{rifa.owener.role}</span>
-          </:col>
-          <:col :let={rifa} label="Created At">
-            {format_datetime(rifa.inserted_at)}
-          </:col>
-          <:col :let={rifa} label="Status">
-            {rifa.status}
-          </:col>
-        </.table>
+          <:col :let={rifa} field="name" filter sort>{rifa.name}</:col>
+          <:col :let={rifa} field="description" filter>{rifa.description}</:col>
+          <:col :let={rifa} field="status" filter>{rifa.status}</:col>
+          <:col :let={rifa} field="creator" filter>{rifa.owener.email}</:col>
+        </Cinder.Table.table>
       <% else %>
         <div class="text-sm opacity-60">
           Nenhuma rifa ai é foda
@@ -58,11 +47,6 @@ defmodule SorteiosWeb.PrizesLive.Index do
   def handle_info(%Phoenix.Socket.Broadcast{topic: "prize"}, socket) do
     {:ok, new_rifas} = Sorteios.Prizes.list_rifas()
     {:noreply, assign(socket, :rifas, new_rifas)}
-  end
-
-  defp format_datetime(datetime) do
-    datetime
-    |> Calendar.strftime("%d/%m/%Y %H:%M")
   end
 
   defp style_role(:admin), do: "badge badge-accent"
