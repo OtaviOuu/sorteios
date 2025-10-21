@@ -25,11 +25,15 @@ defmodule Sorteios.Prizes.Rifa do
       prepare build(sort: [inserted_at: :desc])
       prepare build(load: [:owener, :tickets, :tickets_count])
     end
+
+    read :read_by_user do
+      filter expr(owener_id == ^actor(:id))
+    end
   end
 
   policies do
     policy action_type(:create) do
-      authorize_if actor_attribute_equals(:role, :admin)
+      authorize_if always()
     end
 
     policy action_type(:read) do

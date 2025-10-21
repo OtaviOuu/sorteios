@@ -7,6 +7,8 @@ defmodule Sorteios.Prizes do
     resource Sorteios.Prizes.Rifa do
       define :create_rifa, action: :create
       define :list_rifas, action: :read
+      define :list_rifas_by_user, action: :read_by_user
+
       define :get_rifa, action: :read, get_by: :id
     end
 

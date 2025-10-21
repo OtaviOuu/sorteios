@@ -28,7 +28,9 @@ defmodule SorteiosWeb.Router do
       live "/prizes", PrizesLive.Index, :index
       live "/prizes/new", PrizesLive.New, :new
       live "/prizes/:id", PrizesLive.Show, :show
-      live "/profile/credits", ProfileLive.Index, :index
+
+      live "/profile", ProfileLive.Index, :index
+      live "/profile/credits", ProfileLive.Wallet, :index
 
       # in each liveview, add one of the following at the top of the module:
       #

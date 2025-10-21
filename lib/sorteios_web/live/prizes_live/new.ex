@@ -1,7 +1,7 @@
 defmodule SorteiosWeb.PrizesLive.New do
   use SorteiosWeb, :live_view
 
-  on_mount {SorteiosWeb.LiveUserAuth, :live_admin_required}
+  on_mount {SorteiosWeb.LiveUserAuth, :live_user_required}
 
   def mount(_params, _session, socket) do
     create_rifa_form =
