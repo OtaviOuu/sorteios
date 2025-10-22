@@ -73,6 +73,10 @@ defmodule SorteiosWeb.PrizesLive.Show do
            actor: socket.assigns.current_user
          ) do
       {:ok, _ticket} ->
+        # ???
+        user = socket.assigns.current_user
+        Sorteios.Accounts.consume_credit(user, actor: user)
+
         {:noreply,
          socket
          |> put_flash(:info, "Você participou da rifa com sucesso!")}

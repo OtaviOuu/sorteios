@@ -4,6 +4,9 @@ defmodule Sorteios.Accounts do
 
   resources do
     resource Sorteios.Accounts.Token
-    resource Sorteios.Accounts.User
+
+    resource Sorteios.Accounts.User do
+      define :consume_credit, action: :consume_credit
+    end
   end
 end

@@ -52,6 +52,10 @@ defmodule Sorteios.Accounts.User do
       get_by :email
     end
 
+    update :consume_credit do
+      change increment(:credits, amount: -1)
+    end
+
     create :sign_in_with_magic_link do
       description "Sign in or register a user with magic link."
 
@@ -88,6 +92,10 @@ defmodule Sorteios.Accounts.User do
 
     policy action_type(:read) do
       authorize_if always()
+    end
+
+    policy action_type(:update) do
+      authorize_if actor_present()
     end
   end
 
