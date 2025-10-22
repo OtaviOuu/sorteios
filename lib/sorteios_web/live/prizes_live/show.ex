@@ -13,6 +13,7 @@ defmodule SorteiosWeb.PrizesLive.Show do
       |> assign(:page_title, rifa.name)
       |> assign(:rifa, rifa)
       |> assign(:tickets, tickets)
+      |> assign(:current_user, current_user)
 
     {:ok, socket}
   end
@@ -52,6 +53,13 @@ defmodule SorteiosWeb.PrizesLive.Show do
               :if={Sorteios.Prizes.can_create_ticket?(@current_user)}
               data-action="confetti"
               phx-click="participate"
+              class="btn btn-primary btn-lg gap-2 font-semibold w-full sm:w-auto"
+            >
+              <.icon name="hero-ticket" class="w-5 h-5" /> Participar da Rifa
+            </.button>
+            <.button
+              :if={!Sorteios.Prizes.can_create_ticket?(@current_user)}
+              phx-click={JS.navigate(~p"/register")}
               class="btn btn-primary btn-lg gap-2 font-semibold w-full sm:w-auto"
             >
               <.icon name="hero-ticket" class="w-5 h-5" /> Participar da Rifa
