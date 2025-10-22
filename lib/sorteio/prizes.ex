@@ -13,7 +13,7 @@ defmodule Sorteios.Prizes do
     end
 
     resource Sorteios.Prizes.Tickets do
-      define :create_ticket, action: :create
+      define :create_ticket, action: :create, args: [:user_id, :rifa_id]
       define :list_tickets_from_rifa, action: :read_by_rifa, args: [:rifa_id]
     end
   end
