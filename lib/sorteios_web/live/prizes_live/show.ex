@@ -67,19 +67,31 @@ defmodule SorteiosWeb.PrizesLive.Show do
     """
   end
 
+  def handle_event(
+        "participate",
+        _value,
+        %{assigns: %{current_user: %{credits: credits}}} = socket
+      )
+      when credits <= 0 do
+    {:noreply,
+     socket
+     |> put_flash(:error, "Você não possui créditos suficientes para participar da rifa.")}
+  end
+
   def handle_event("participate", _value, socket) do
+    user = socket.assigns.current_user
+
     case Sorteios.Prizes.create_ticket(
-           %{user_id: socket.assigns.current_user.id, rifa_id: socket.assigns.rifa.id},
-           actor: socket.assigns.current_user
+           %{user_id: user.id, rifa_id: socket.assigns.rifa.id},
+           actor: user
          ) do
       {:ok, _ticket} ->
         # ???
-        user = socket.assigns.current_user
         Sorteios.Accounts.consume_credit(user, actor: user)
 
         {:noreply,
          socket
-         |> put_flash(:info, "Você participou da rifa com sucesso!")}
+         |> push_navigate(to: ~p"/prizes/#{socket.assigns.rifa.id}")}
 
       {:error, error} ->
         {:noreply,
